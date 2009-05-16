@@ -18,7 +18,9 @@ class Clearance::SessionsController < ApplicationController
       if @user.email_confirmed?
         sign_user_in(@user)
         remember(@user) if remember?
-        flash[:success] = translate(:signed_in, :default =>  "Signed in.")
+        flash[:success] = translate(:signed_in,
+          :scope   => [:clearance, :controllers, :sessions],
+          :default =>  "Signed in.")
         redirect_back_or url_after_create
       else
         ::ClearanceMailer.deliver_confirmation(@user)
@@ -32,7 +34,9 @@ class Clearance::SessionsController < ApplicationController
 
   def destroy
     forget(current_user)
-    flash[:success] = translate(:signed_out, :default =>  "Signed out.")
+    flash[:success] = translate(:signed_out,
+      :scope   => [:clearance, :controllers, :sessions],
+      :default =>  "Signed out.")
     redirect_to url_after_destroy
   end
 
